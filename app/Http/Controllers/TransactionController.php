@@ -11,7 +11,8 @@ class TransactionController extends Controller
     public function index()
     {
         $transactions = Transaction::all();
-        return view('transactions.index', compact('transactions'));
+        $products = Product::all();
+        return view('transactions.index', compact('transactions', 'products'));
     }
 
     public function store(Request $request)
@@ -19,18 +20,18 @@ class TransactionController extends Controller
         $request->validate([
             'product_id' => 'required|exists:products,id',
             'amount' => 'required|numeric',
-            'timestamp' => 'required|date',
         ]);
 
         Transaction::create([
             'product_id' => $request->product_id,
             'amount' => $request->amount,
-            'timestamp' => $request->timestamp,
+            'timestamp' => now(), // Automatically set the current timestamp
             'status' => 1, // default to success status
         ]);
 
         return redirect()->back()->with('success', 'Transaction added successfully.');
     }
+
 
     public function create()
     {
@@ -38,13 +39,11 @@ class TransactionController extends Controller
         return view('transactions.create', compact('products'));
     }
 
-
     public function update(Request $request, $id)
     {
         $request->validate([
             'order_id' => 'required|string|max:255',
             'amount' => 'required|numeric',
-            'timestamp' => 'required|date',
             'status' => 'required|integer|in:1,2',
         ]);
 
@@ -52,8 +51,8 @@ class TransactionController extends Controller
         $transaction->update([
             'order_id' => $request->order_id,
             'amount' => $request->amount,
-            'timestamp' => $request->timestamp,
             'status' => $request->status,
+            'timestamp' => now(), // Automatically update the timestamp
         ]);
 
         return redirect()->back()->with('success', 'Transaction updated successfully.');

@@ -2,6 +2,22 @@
 
 @section('content')
 <!-- Main content -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Transactions</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="{{ route('dashboard.index') }}">Home</a></li>
+                    <li class="breadcrumb-item active">Transactions</li>
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
 <section class="content">
     <div class="container-fluid">
         <div class="row">
@@ -9,6 +25,7 @@
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">Transaction History</h3>
+                        <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#addTransactionModal">Add Transaction</button>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
@@ -54,7 +71,7 @@
 </section>
 <!-- /.content -->
 
-@include('transactions.create') <!-- Include create modal -->
+@include('transactions.create', ['products' => $products]) <!-- Include create modal with products -->
 @foreach($transactions as $transaction)
 @include('transactions.edit', ['transaction' => $transaction]) <!-- Include edit modals for each transaction -->
 @include('transactions.delete', ['transaction' => $transaction]) <!-- Include delete modals for each transaction -->

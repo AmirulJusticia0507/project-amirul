@@ -24,10 +24,6 @@
                         <label for="amount">Amount</label>
                         <input type="text" class="form-control" id="amount" name="amount" required>
                     </div>
-                    <div class="form-group">
-                        <label for="timestamp">Timestamp</label>
-                        <input type="text" class="form-control" id="timestamp" name="timestamp" required>
-                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
