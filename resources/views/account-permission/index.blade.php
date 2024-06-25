@@ -14,11 +14,42 @@
                 </ol>
             </div>
         </div>
-    </div><!-- /.container-fluid -->
+    </div>
 </section>
 
 <div class="container">
-    <h1>Account Permission</h1>
-    <p>Manage your account permissions here.</p>
+    <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#addPermissionModal">Add Permission</button>
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($users as $user)
+                <tr>
+                    <td>{{ $user->id }}</td>
+                    <td>{{ $user->name }}</td>
+                    <td>{{ $user->email }}</td>
+                    <td>
+                        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#editPermissionModal{{ $user->id }}">Edit</button>
+                        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deletePermissionModal{{ $user->id }}">Delete</button>
+                    </td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
 </div>
+
+@include('account-permission.create') <!-- Include create modal -->
+@foreach($users as $user)
+@include('account-permission.edit', ['user' => $user]) <!-- Include edit modals for each user -->
+@include('account-permission.delete', ['user' => $user]) <!-- Include delete modals for each user -->
+@endforeach
 @endsection

@@ -21,6 +21,11 @@
 <section class="content">
     <div class="container-fluid">
         <div class="row">
+
+            <div class="col-sm-6">
+                <p>Your current wallet balance: {{ session('walletBalance') }}</p>
+            </div>
+
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
@@ -34,7 +39,7 @@
                                 <thead>
                                     <tr>
                                         <th>ID</th>
-                                        <th>Order ID</th>
+                                        <th>Product Name</th>
                                         <th>Amount</th>
                                         <th>Timestamp</th>
                                         <th>Status</th>
@@ -45,7 +50,7 @@
                                     @foreach($transactions as $transaction)
                                     <tr>
                                         <td>{{ $transaction->id }}</td>
-                                        <td>{{ $transaction->order_id }}</td>
+                                        <td>{{ $transaction->product->name }}</td>
                                         <td>{{ $transaction->amount }}</td>
                                         <td>{{ $transaction->timestamp }}</td>
                                         <td>{{ $transaction->status == 1 ? 'Success' : 'Failed' }}</td>

@@ -18,7 +18,7 @@
                 <li class="nav-item">
                     <a href="{{ route('transactions.index') }}" class="nav-link">
                         <i class="nav-icon fas fa-file"></i>
-                        <p>Transaction</p>
+                        <p>Transaction History</p>
                     </a>
                 </li>
                 <li class="nav-item">
@@ -27,22 +27,30 @@
                         <p>Product</p>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="{{ route('wallet.index') }}" class="nav-link">
+                        <i class="nav-icon fas fa-wallet"></i>
+                        <p>Wallet</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('wallet.deposit_withdrawal') }}" class="nav-link">
+                        <i class="nav-icon fas fa-coins"></i>
+                        <p>Deposit & Withdrawal</p>
+                    </a>
+                </li>
 
-                <li class="nav-item">
-                    <a href="{{ route('account-permission.index') }}" class="nav-link">
-                        <i class="nav-icon fas fa-users"></i>
-                        <p>Account Permission</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ route('logout') }}" class="nav-link" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                        <i class="nav-icon fas fa-sign-out-alt"></i>
-                        <p>Logout</p>
-                    </a>
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                        @csrf
-                    </form>
-                </li>
+
+                @if(auth()->check())
+                    @if(auth()->user()->role == 'admin')
+                    <li class="nav-item">
+                        <a href="{{ route('account-permission.index') }}" class="nav-link">
+                            <i class="nav-icon fas fa-users"></i>
+                            <p>Account Permission</p>
+                        </a>
+                    </li>
+                    @endif
+                @endif
             </ul>
         </nav>
         <!-- /.sidebar-menu -->

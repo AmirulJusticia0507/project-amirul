@@ -13,14 +13,21 @@
                 @method('PUT')
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="edit_order_id">Order ID</label>
-                        <input type="text" class="form-control" id="edit_order_id" name="order_id" value="{{ $transaction->order_id }}" required>
+                        <label for="edit_product_id">Product</label>
+                        <select class="form-control" id="edit_product_id" name="product_id" required>
+                            @foreach($products as $product)
+                                <option value="{{ $product->id }}" {{ $transaction->product_id == $product->id ? 'selected' : '' }}>
+                                    {{ $product->name }}
+                                </option>
+                            @endforeach
+                        </select>
                     </div>
                     <div class="form-group">
                         <label for="edit_amount">Amount</label>
                         <input type="text" class="form-control" id="edit_amount" name="amount" value="{{ $transaction->amount }}" required>
                     </div>
-                    <div class="form-group">
+                    <!-- Timestamp tidak ditampilkan karena akan diupdate secara otomatis -->
+                    <div class="form-group" style="display: none;">
                         <label for="edit_timestamp">Timestamp</label>
                         <input type="text" class="form-control" id="edit_timestamp" name="timestamp" value="{{ $transaction->timestamp }}" required>
                     </div>
