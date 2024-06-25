@@ -19,6 +19,11 @@
                         <label for="price">Price</label>
                         <input type="text" class="form-control" id="price" name="price" required>
                     </div>
+                    <div class="form-group">
+                        <label for="quantity">Quantity</label>
+                        <input type="number" class="form-control" id="quantity" name="quantity" required>
+                    </div>
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

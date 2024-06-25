@@ -20,8 +20,30 @@
                     </div>
                     <div class="form-group">
                         <label for="password">Password</label>
-                        <input type="password" class="form-control" id="password" name="password" required>
+                        <div class="input-group">
+                            <input type="password" class="form-control" id="password" name="password" required>
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary" type="button" id="togglePassword"><i class="fa fa-eye-slash"></i></button>
+                            </div>
+                        </div>
                     </div>
+                    <div class="form-group">
+                        <label for="password_confirmation">Confirm Password</label>
+                        <div class="input-group">
+                            <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="role">Role</label>
+                        <select class="form-control" id="role" name="role" required>
+                            <option value="admin">Admin</option>
+                            <option value="user">User</option>
+                        </select>
+                    </div>
+                    {{-- <div class="form-group">
+                        <label for="amount">Amount</label>
+                        <input type="number" class="form-control" id="amount" name="amount" required>
+                    </div> --}}
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -31,3 +53,13 @@
         </div>
     </div>
 </div>
+<script>
+    // Toggle password visibility for create form
+    document.getElementById('togglePassword').addEventListener('click', function () {
+        const passwordInput = document.getElementById('password');
+        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordInput.setAttribute('type', type);
+        this.querySelector('i').classList.toggle('fa-eye-slash');
+        this.querySelector('i').classList.toggle('fa-eye');
+    });
+</script>

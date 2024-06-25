@@ -30,12 +30,13 @@
                     <div class="card-body">
                         <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#addProductModal">Add Product</button>
                         <div class="table-responsive">
-                            <table class="table table-bordered table-striped">
+                            <table class="display table table-bordered table-striped table-hover responsive nowrap" style="width:100%" id="productTable">
                                 <thead>
                                     <tr>
                                         <th>ID</th>
                                         <th>Name</th>
                                         <th>Price</th>
+                                        <th>Quantity</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
@@ -45,6 +46,7 @@
                                         <td>{{ $product->id }}</td>
                                         <td>{{ $product->name }}</td>
                                         <td>{{ $product->price }}</td>
+                                        <td>{{ $product->quantity }}</td>
                                         <td>
                                             <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#editProductModal{{ $product->id }}">Edit</button>
                                             <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteProductModal{{ $product->id }}">Delete</button>
@@ -74,5 +76,16 @@
     @include('products.edit', ['product' => $product])
     @include('products.delete', ['product' => $product])
 @endforeach
-
+<script>
+    $(document).ready(function () {
+        $('#productTable').DataTable({
+            responsive: true,
+            scrollX: true,
+            searching: true,
+            lengthMenu: [10, 25, 50, 100, 500, 1000],
+            pageLength: 10,
+            dom: 'lBfrtip'
+        });
+    });
+</script>
 @endsection

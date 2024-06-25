@@ -28,17 +28,18 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('wallet.index') }}" class="nav-link">
-                        <i class="nav-icon fas fa-wallet"></i>
-                        <p>Wallet</p>
-                    </a>
-                </li>
-                <li class="nav-item">
                     <a href="{{ route('wallet.deposit_withdrawal') }}" class="nav-link">
-                        <i class="nav-icon fas fa-coins"></i>
-                        <p>Deposit & Withdrawal</p>
+                        <i class="nav-icon fas fa-wallet"></i>
+                        <p>Deposit Wallet</p>
                     </a>
                 </li>
+                {{-- <li class="nav-item">
+                    <a href="{{ route('wallet.withdrawal') }}" class="nav-link">
+                        <i class="nav-icon fas fa-coins"></i>
+                        <p>Withdrawal Wallet</p>
+                    </a>
+                </li> --}}
+
 
 
                 @if(auth()->check())

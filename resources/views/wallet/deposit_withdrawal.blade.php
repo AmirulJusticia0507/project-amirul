@@ -4,11 +4,12 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
+            <br><br>
             <div class="card">
                 <div class="card-header">Deposit & Withdrawal</div>
 
                 <div class="card-body">
-                    <h4>Your Wallet Balance: {{ $user->wallet }}</h4>
+                    <h4>Your Wallet Balance: {{ formatRupiah($user->wallet) }}</h4>
 
                     <div class="mt-4">
                         <!-- Form untuk deposit -->

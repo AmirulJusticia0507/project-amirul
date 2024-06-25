@@ -24,39 +24,44 @@ class TransactionController extends Controller
     {
         $request->validate([
             'product_id' => 'required|exists:products,id',
-            'amount' => 'required|numeric|min:1', // Minimal amount harus lebih dari 0
-            'status' => 'required|integer|in:1,2',
+            'amount' => 'required|numeric|min:1',
+            'status' => 'required|in:1,2',
         ]);
 
-        $user = Auth::user(); // Pastikan user terautentikasi
-        $amount = $request->amount;
         $product = Product::findOrFail($request->product_id);
-        $totalAmount = $product->price * $amount;
 
+        // Check if sufficient quantity is available
+        if ($product->quantity < $request->amount) {
+            return redirect()->back()->with('error', 'Insufficient stock.');
+        }
+
+        // Calculate total amount
+        $totalAmount = $product->price * $request->amount;
+
+        // Check if transaction amount exceeds wallet balance
+        $user = Auth::user();
         if ($totalAmount > $user->wallet) {
-            return redirect()->back()->withErrors(['amount' => 'Insufficient wallet balance.']);
+            return redirect()->back()->with('error', 'Insufficient wallet balance.');
         }
 
-        // Kurangi saldo dari wallet pengguna hanya jika transaksi berhasil
-        if ($request->status == 1) {
-            $user->wallet -= $totalAmount;
-            $user->save();
-        }
-
-        Transaction::create([
+        // Create transaction
+        $transaction = Transaction::create([
             'product_id' => $request->product_id,
-            'amount' => $amount,
-            'total_amount' => $totalAmount,
-            'timestamp' => now(),
+            'amount' => $request->amount,
             'status' => $request->status,
+            'total_amount' => $totalAmount, // Store total amount in the transaction
         ]);
 
-        // Update wallet balance after transaction
-        $walletBalance = $user->wallet;
+        // Deduct quantity from product stock
+        $product->decrement('quantity', $request->amount);
 
-        return redirect()->back()->with('success', 'Transaction added successfully.')
-                                 ->with(compact('walletBalance'));
+        // Deduct total amount from user's wallet
+        $user->wallet -= $totalAmount;
+        $user->save();
+
+        return redirect()->back()->with('success', 'Transaction added successfully.');
     }
+
 
     public function create()
     {

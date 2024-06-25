@@ -19,9 +19,33 @@
                         <label for="email{{ $user->id }}">Email</label>
                         <input type="email" class="form-control" id="email{{ $user->id }}" name="email" value="{{ $user->email }}" required>
                     </div>
+                    @if(auth()->user()->role != 'user' || auth()->user()->id == $user->id)
+                    <div class="form-group">
+                        <label for="role{{ $user->id }}">Role</label>
+                        <select class="form-control" id="role{{ $user->id }}" name="role" required>
+                            <option value="admin" @if($user->role == 'admin') selected @endif>Admin</option>
+                            <option value="user" @if($user->role == 'user') selected @endif>User</option>
+                        </select>
+                    </div>
+                    @endif
+                    {{-- <div class="form-group">
+                        <label for="amount{{ $user->id }}">Amount</label>
+                        <input type="number" class="form-control" id="amount{{ $user->id }}" name="amount" value="{{ $user->wallet }}" required>
+                    </div> --}}
                     <div class="form-group">
                         <label for="password{{ $user->id }}">Password</label>
-                        <input type="password" class="form-control" id="password{{ $user->id }}" name="password">
+                        <div class="input-group">
+                            <input type="password" class="form-control" id="password{{ $user->id }}" name="password">
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary" type="button" id="togglePassword{{ $user->id }}"><i class="fa fa-eye-slash"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="password_confirmation{{ $user->id }}">Confirm Password</label>
+                        <div class="input-group">
+                            <input type="password" class="form-control" id="password_confirmation{{ $user->id }}" name="password_confirmation">
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -32,3 +56,14 @@
         </div>
     </div>
 </div>
+
+<script>
+    // Toggle password visibility for edit forms (loop through all edit forms)
+    document.getElementById('togglePassword{{ $user->id }}').addEventListener('click', function () {
+        const passwordInput = document.getElementById('password{{ $user->id }}');
+        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordInput.setAttribute('type', type);
+        this.querySelector('i').classList.toggle('fa-eye-slash');
+        this.querySelector('i').classList.toggle('fa-eye');
+    });
+</script>

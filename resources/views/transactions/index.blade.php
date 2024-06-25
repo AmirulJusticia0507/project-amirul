@@ -23,8 +23,9 @@
         <div class="row">
 
             <div class="col-sm-6">
-                <p>Your current wallet balance: {{ session('walletBalance') }}</p>
+                <p>Your current wallet balance: {{ $walletBalance }}</p>
             </div>
+
 
             <div class="col-md-12">
                 <div class="card">
@@ -35,7 +36,7 @@
                     <div class="card-body">
                         <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#addTransactionModal">Add Transaction</button>
                         <div class="table-responsive">
-                            <table class="table table-bordered table-striped">
+                            <table class="display table table-bordered table-striped table-hover responsive nowrap" style="width:100%" id="transactionTable">
                                 <thead>
                                     <tr>
                                         <th>ID</th>
@@ -81,5 +82,16 @@
 @include('transactions.edit', ['transaction' => $transaction]) <!-- Include edit modals for each transaction -->
 @include('transactions.delete', ['transaction' => $transaction]) <!-- Include delete modals for each transaction -->
 @endforeach
-
+<script>
+    $(document).ready(function () {
+        $('#transactionTable').DataTable({
+            responsive: true,
+            scrollX: true,
+            searching: true,
+            lengthMenu: [10, 25, 50, 100, 500, 1000],
+            pageLength: 10,
+            dom: 'lBfrtip'
+        });
+    });
+</script>
 @endsection

@@ -29,7 +29,9 @@
                 <div class="card-body">
                     <ul class="list-group">
                         @foreach($productInventory as $product)
-                        <li class="list-group-item">{{ $product->name }} - {{ $product->quantity }}</li>
+                        <li class="list-group-item">
+                            {{ $product->name }} - {{ $product->price }} ({{ $product->quantity }})
+                        </li>
                         @endforeach
                     </ul>
                 </div>
