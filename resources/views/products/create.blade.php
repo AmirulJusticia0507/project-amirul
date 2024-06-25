@@ -19,6 +19,13 @@
                         <label for="price">Price</label>
                         <input type="text" class="form-control" id="price" name="price" required>
                     </div>
+                    <div class="form-group">
+                        <label for="status">Status</label>
+                        <select class="form-control" id="status" name="status" required>
+                            <option value="1">Success</option>
+                            <option value="2">Failed</option>
+                        </select>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
