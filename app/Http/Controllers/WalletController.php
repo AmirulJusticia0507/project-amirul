@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use App\Models\User;
+use App\Models\TransactionLog;
 
 class WalletController extends Controller
 {
@@ -11,7 +13,13 @@ class WalletController extends Controller
     public function depositWithdrawal()
     {
         $user = auth()->user(); // Mendapatkan user yang sedang terautentikasi
-        return view('wallet.deposit_withdrawal', compact('user'));
+
+        // Ambil log transaksi untuk user tertentu
+        $transactionLogs = TransactionLog::where('user_id', $user->id)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return view('wallet.deposit_withdrawal', compact('user', 'transactionLogs'));
     }
 
     // Fungsi untuk melakukan deposit
@@ -25,36 +33,17 @@ class WalletController extends Controller
         $user->wallet += $request->amount;
         $user->save();
 
-        return redirect()->back()->with('success', 'Deposit successfully added.');
-    }
+        // Log untuk deposit
+        Log::channel('deposit_withdrawal')->info('User ' . $user->name . ' melakukan deposit sebesar ' . $request->amount . ' pada ' . now()->format('Y-m-d H:i:s'));
 
-    public function update(Request $request)
-    {
-        $request->validate([
-            'amount' => 'required|numeric|min:1',
+        // Simpan log transaksi ke database
+        TransactionLog::create([
+            'user_id' => $user->id,
+            'amount' => $request->amount,
+            'type' => 'deposit',
         ]);
 
-        $user = auth()->user(); // Mendapatkan user yang sedang terautentikasi
-
-        // Jika ingin menentukan jenis transaksi berdasarkan request
-        if ($request->has('deposit')) {
-            $user->wallet += $request->amount;
-            $message = 'Deposit successfully added.';
-        } elseif ($request->has('withdrawal')) {
-            // Pastikan untuk menambahkan validasi agar withdrawal tidak melebihi saldo wallet
-            if ($request->amount > $user->wallet) {
-                return redirect()->back()->with('error', 'Insufficient wallet balance for withdrawal.');
-            }
-            $user->wallet -= $request->amount;
-            $message = 'Withdrawal successfully processed.';
-        } else {
-            // Handle case when neither deposit nor withdrawal is specified
-            return redirect()->back()->with('error', 'Invalid transaction type.');
-        }
-
-        $user->save();
-
-        return redirect()->back()->with('success', $message);
+        return redirect()->back()->with('success', 'Deposit successfully added.');
     }
 
     // Fungsi untuk melakukan withdrawal
@@ -67,6 +56,16 @@ class WalletController extends Controller
         $user = auth()->user(); // Mendapatkan user yang sedang terautentikasi
         $user->wallet -= $request->amount;
         $user->save();
+
+        // Log untuk withdrawal
+        Log::channel('deposit_withdrawal')->info('User ' . $user->name . ' melakukan penarikan sebesar ' . $request->amount . ' pada ' . now()->format('Y-m-d H:i:s'));
+
+        // Simpan log transaksi ke database
+        TransactionLog::create([
+            'user_id' => $user->id,
+            'amount' => $request->amount,
+            'type' => 'withdrawal',
+        ]);
 
         return redirect()->back()->with('success', 'Withdrawal successfully processed.');
     }

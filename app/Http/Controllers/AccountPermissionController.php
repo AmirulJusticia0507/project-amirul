@@ -25,6 +25,7 @@ class AccountPermissionController extends Controller
             'amount' => 'required|numeric',
         ]);
 
+
         User::create([
             'name' => $request->name,
             'email' => $request->email,

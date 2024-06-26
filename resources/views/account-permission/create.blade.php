@@ -31,6 +31,11 @@
                         <label for="password_confirmation">Confirm Password</label>
                         <div class="input-group">
                             <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" required>
+                            <div class="input-group-append">
+                                <span class="input-group-text">
+                                    <i class="fas fa-eye" id="toggleConfirmPassword"></i>
+                                </span>
+                            </div>
                         </div>
                     </div>
                     <div class="form-group">
@@ -40,10 +45,6 @@
                             <option value="user">User</option>
                         </select>
                     </div>
-                    {{-- <div class="form-group">
-                        <label for="amount">Amount</label>
-                        <input type="number" class="form-control" id="amount" name="amount" required>
-                    </div> --}}
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -54,12 +55,21 @@
     </div>
 </div>
 <script>
-    // Toggle password visibility for create form
-    document.getElementById('togglePassword').addEventListener('click', function () {
-        const passwordInput = document.getElementById('password');
-        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-        passwordInput.setAttribute('type', type);
-        this.querySelector('i').classList.toggle('fa-eye-slash');
-        this.querySelector('i').classList.toggle('fa-eye');
+    document.addEventListener("DOMContentLoaded", function () {
+        const togglePassword = document.querySelector('#togglePassword');
+        const password = document.querySelector('#password');
+        togglePassword.addEventListener('click', function (e) {
+            const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+            password.setAttribute('type', type);
+            this.classList.toggle('fa-eye-slash');
+        });
+
+        const toggleConfirmPassword = document.querySelector('#toggleConfirmPassword');
+        const confirmPassword = document.querySelector('#password_confirmation');
+        toggleConfirmPassword.addEventListener('click', function (e) {
+            const type = confirmPassword.getAttribute('type') === 'password' ? 'text' : 'password';
+            confirmPassword.setAttribute('type', type);
+            this.classList.toggle('fa-eye-slash');
+        });
     });
 </script>

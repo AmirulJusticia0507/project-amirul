@@ -30,12 +30,15 @@
 
             <div class="form-group d-flex justify-content-between align-items-center">
                 <button type="submit" class="btn btn-primary">Login</button>
-                <div>
+                {{-- <div>
                     <a href="{{ route('password.request') }}" class="btn btn-link">Forgot Password?</a>
                     <a href="{{ route('register') }}" class="btn btn-link">Register</a>
-                </div>
+                </div> --}}
             </div>
         </form>
+        <h4>Catatan:</h4>
+        <p>Email Login: amirul@gmail.com</p>
+        <p>Password Login: tester123</p>
     </div>
 </div>
 @endsection

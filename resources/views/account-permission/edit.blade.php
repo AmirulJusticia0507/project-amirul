@@ -27,11 +27,6 @@
                             <option value="user" @if($user->role == 'user') selected @endif>User</option>
                         </select>
                     </div>
-                    @endif
-                    {{-- <div class="form-group">
-                        <label for="amount{{ $user->id }}">Amount</label>
-                        <input type="number" class="form-control" id="amount{{ $user->id }}" name="amount" value="{{ $user->wallet }}" required>
-                    </div> --}}
                     <div class="form-group">
                         <label for="password{{ $user->id }}">Password</label>
                         <div class="input-group">
@@ -45,25 +40,39 @@
                         <label for="password_confirmation{{ $user->id }}">Confirm Password</label>
                         <div class="input-group">
                             <input type="password" class="form-control" id="password_confirmation{{ $user->id }}" name="password_confirmation">
+                            <div class="input-group-append">
+                                <span class="input-group-text">
+                                    <i class="fas fa-eye" id="toggleConfirmPassword{{ $user->id }}"></i>
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                    <button type="submit" class="btn btn-primary">Update Permission</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
-
 <script>
-    // Toggle password visibility for edit forms (loop through all edit forms)
-    document.getElementById('togglePassword{{ $user->id }}').addEventListener('click', function () {
-        const passwordInput = document.getElementById('password{{ $user->id }}');
-        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-        passwordInput.setAttribute('type', type);
-        this.querySelector('i').classList.toggle('fa-eye-slash');
-        this.querySelector('i').classList.toggle('fa-eye');
+    document.addEventListener("DOMContentLoaded", function () {
+        const togglePassword{{ $user->id }} = document.querySelector('#togglePassword{{ $user->id }}');
+        const password{{ $user->id }} = document.querySelector('#password{{ $user->id }}');
+        togglePassword{{ $user->id }}.addEventListener('click', function (e) {
+            const type = password{{ $user->id }}.getAttribute('type') === 'password' ? 'text' : 'password';
+            password{{ $user->id }}.setAttribute('type', type);
+            this.classList.toggle('fa-eye-slash');
+        });
+
+        const toggleConfirmPassword{{ $user->id }} = document.querySelector('#toggleConfirmPassword{{ $user->id }}');
+        const confirmPassword{{ $user->id }} = document.querySelector('#password_confirmation{{ $user->id }}');
+        toggleConfirmPassword{{ $user->id }}.addEventListener('click', function (e) {
+            const type = confirmPassword{{ $user->id }}.getAttribute('type') === 'password' ? 'text' : 'password';
+            confirmPassword{{ $user->id }}.setAttribute('type', type);
+            this.classList.toggle('fa-eye-slash');
+        });
     });
 </script>
+@endif

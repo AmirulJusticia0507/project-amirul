@@ -35,23 +35,23 @@
             </thead>
             <tbody>
                 @foreach($users as $user)
-                @if(auth()->user()->role == 'user' && auth()->user()->id != $user->id)
-                    @continue
-                @endif
-                <tr>
-                    <td>{{ $user->id }}</td>
-                    <td>{{ $user->name }}</td>
-                    <td>{{ $user->email }}</td>
-                    <td>{{ $user->role }}</td>
-                    <td>
-                        <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#editPermissionModal{{ $user->id }}">
-                            <i class="fas fa-edit"></i> Edit
-                        </button>
-                        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deletePermissionModal{{ $user->id }}">
-                            <i class="fas fa-trash"></i> Delete
-                        </button>
-                    </td>
-                </tr>
+                    @if(auth()->user()->role == 'user' && auth()->user()->id != $user->id)
+                        @continue
+                    @endif
+                    <tr>
+                        <td>{{ $user->id }}</td>
+                        <td>{{ $user->name }}</td>
+                        <td>{{ $user->email }}</td>
+                        <td>{{ $user->role }}</td>
+                        <td>
+                            <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#editPermissionModal{{ $user->id }}">
+                                <i class="fas fa-edit"></i> Edit
+                            </button>
+                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deletePermissionModal{{ $user->id }}">
+                                <i class="fas fa-trash"></i> Delete
+                            </button>
+                        </td>
+                    </tr>
                 @endforeach
             </tbody>
         </table>
@@ -59,12 +59,13 @@
 </div>
 
 @include('account-permission.create') <!-- Include create modal -->
+
 @foreach($users as $user)
-@if(auth()->user()->role == 'user' && auth()->user()->id != $user->id)
-    @continue
-@endif
-@include('account-permission.edit', ['user' => $user]) <!-- Include edit modals for each user -->
-@include('account-permission.delete', ['user' => $user]) <!-- Include delete modals for each user -->
+    @if(auth()->user()->role == 'user' && auth()->user()->id != $user->id)
+        @continue
+    @endif
+    @include('account-permission.edit', ['user' => $user]) <!-- Include edit modals for each user -->
+    @include('account-permission.delete', ['user' => $user]) <!-- Include delete modals for each user -->
 @endforeach
 
 <script>

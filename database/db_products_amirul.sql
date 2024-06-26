@@ -29,6 +29,10 @@ CREATE TABLE `cache` (
 
 /*Data for the table `cache` */
 
+insert  into `cache`(`key`,`value`,`expiration`) values 
+('5c785c036466adea360111aa28563bfd556b5fba','i:1;',1719375339),
+('5c785c036466adea360111aa28563bfd556b5fba:timer','i:1719375339;',1719375339);
+
 /*Table structure for table `cache_locks` */
 
 DROP TABLE IF EXISTS `cache_locks`;
@@ -190,7 +194,30 @@ CREATE TABLE `sessions` (
 /*Data for the table `sessions` */
 
 insert  into `sessions`(`id`,`user_id`,`ip_address`,`user_agent`,`payload`,`last_activity`) values 
-('qaL5rOetw2u0axAGJzSiTJrKJpLgxlY8F8VQR9tv',1,'127.0.0.1','Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:127.0) Gecko/20100101 Firefox/127.0','YTo1OntzOjY6Il90b2tlbiI7czo0MDoiR1RXSUwyWHZrbjJqRHVIMUFVM2hjYzdjTkg0RWE0d0drU1lFUm9PSyI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9kYXNoYm9hcmQiO31zOjM6InVybCI7YTowOnt9czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MTt9',1719310221);
+('hLxEPd0uRfk8TLYnQQ0frgwnvjc7WPtSpngMV4KG',NULL,'127.0.0.1','Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:127.0) Gecko/20100101 Firefox/127.0','YTozOntzOjY6Il90b2tlbiI7czo0MDoiR1ltVGU0MXFXS0kwQ0gwN1E2NU1KVzUxcE5JTHhqNUh0NzJCblZrMiI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=',1719368524),
+('JHlzsp2lurSMavCyPVpynMcEsGzTyTUYX77godmM',NULL,'127.0.0.1','Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:127.0) Gecko/20100101 Firefox/127.0','YTozOntzOjY6Il90b2tlbiI7czo0MDoiNDA2bVcyckZJMk90aU1YVWt6MDFtM2VqTnNGMGxlSFVWQk9tZG5wbyI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6Mjc6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9sb2dpbiI7fX0=',1719375314);
+
+/*Table structure for table `transaction_logs` */
+
+DROP TABLE IF EXISTS `transaction_logs`;
+
+CREATE TABLE `transaction_logs` (
+  `id` int(20) NOT NULL AUTO_INCREMENT,
+  `user_id` int(20) NOT NULL,
+  `amount` decimal(30,2) NOT NULL,
+  `type` enum('deposit','withdrawal') NOT NULL,
+  `status` varchar(255) NOT NULL DEFAULT 'completed',
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+/*Data for the table `transaction_logs` */
+
+insert  into `transaction_logs`(`id`,`user_id`,`amount`,`type`,`status`,`created_at`,`updated_at`) values 
+(1,1,500000.00,'deposit','','2024-06-26 04:08:50','2024-06-26 04:08:50'),
+(2,1,400000.00,'withdrawal','completed','2024-06-26 11:12:08','2024-06-26 04:11:25'),
+(4,1,700000.00,'deposit','completed','2024-06-26 04:12:26','2024-06-26 04:12:26');
 
 /*Table structure for table `transactions` */
 
@@ -237,7 +264,7 @@ CREATE TABLE `users` (
 /*Data for the table `users` */
 
 insert  into `users`(`id`,`name`,`email`,`email_verified_at`,`password`,`remember_token`,`created_at`,`updated_at`,`role`,`amount`,`wallet`) values 
-(1,'Amirul Putra Justicia','amirulputra0507@gmail.com',NULL,'$2y$12$brFeVLh0dJY8de.SfMMHju7ZxNOOH5nKAoZzeO4VbzhkWbizQ9O6q',NULL,'2024-06-25 03:33:38','2024-06-25 10:09:56','admin',NULL,300000);
+(1,'Amirul Putra Justicia','amirul@gmail.com',NULL,'$2y$12$brFeVLh0dJY8de.SfMMHju7ZxNOOH5nKAoZzeO4VbzhkWbizQ9O6q',NULL,'2024-06-25 03:33:38','2024-06-26 04:12:26','admin',NULL,1000000);
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
